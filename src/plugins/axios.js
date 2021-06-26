@@ -9,7 +9,7 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  baseURL: 'http://localhost:8081/raf_news_projekat_war_exploded/api'
+  baseURL: 'http://localhost:8081'
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 };
@@ -18,6 +18,8 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function(config) {
+    const jwt = localStorage.getItem('jwt');
+    config.headers.Authorization = `Bearer ${jwt}`
     // Do something before request is sent
     return config;
   },
