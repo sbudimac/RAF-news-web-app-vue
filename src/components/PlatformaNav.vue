@@ -4,7 +4,7 @@
       <h1>RAF news reading platform</h1>
     </div>
     <div id="nav">
-      <h3><router-link to="/platforma">Home page</router-link> | <router-link to="/najcitanije">Most popular</router-link> | <router-link to="/kategorije">Categories</router-link></h3>
+      <h3><router-link to="/platforma">Home page</router-link> | <router-link to="/najcitanije">Most popular</router-link> | <router-link to="/kategorije">News by categories</router-link></h3>
     </div>
   </div>
 </template>
