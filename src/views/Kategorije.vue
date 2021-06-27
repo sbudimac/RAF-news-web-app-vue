@@ -1,6 +1,7 @@
 <template>
   <div>
     <PlatformaNav/>
+    <h1>News by categories</h1>
     <div class="custom-select" style="width:200px;" v-if="kategorije">
       <select id="categories" class="form-select" aria-label="Default select example">
         <option v-for="(kategorija) in kategorije" :key="kategorija.kategorijaId" v-on:change="getKategorijaVesti(kategorija.kategorijaId)" value="category">{{ kategorija.ime }}</option>
@@ -44,6 +45,11 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 40px;
+  color: #04AA6D;
+  text-decoration: underline;
+}
   .custom-select {
     margin-left: 40px;
   }

@@ -1,16 +1,17 @@
 <template>
+
   <div>
-    <form action="/action_page.php" style="border:1px solid #ccc">
+    <form @submit.prevent="login" style="border:1px solid #ccc">
       <div class="container">
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
+        <h1>Sign In</h1>
+        <p>Please fill in this form to sign in.</p>
         <hr>
 
         <label for="email"><b>Email</b></label>
-        <input type="text" id="email" placeholder="Enter Email" name="email" required>
+        <input v-model="email" type="text" id="email" placeholder="Enter Email" name="email" required>
 
         <label for="password"><b>Password</b></label>
-        <input type="password" id="password" placeholder="Enter Password" name="psw" required>
+        <input v-model="lozinka" type="password" id="password" placeholder="Enter Password" name="psw" required>
 
         <div class="clearfix">
           <button type="button" class="cancelbtn">Cancel</button>
@@ -22,7 +23,26 @@
 </template>
 
 <script>
-
+export default {
+  name: 'Login',
+  data() {
+    return {
+      email: '',
+      lozinka: ''
+    }
+  },
+  methods: {
+    login() {
+      this.$axios.post('/api/platforma_korisnici/login', {
+        email: this.email,
+        lozinka: this.lozinka
+      }).then(response => {
+        localStorage.setItem('jwt', response.data.jwt)
+        this.$router.push({name: 'CMSKategorije'})
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <PlatformaNav/>
+    <h1>Homepage</h1>
     <div id="vesti" v-if="vesti">
       <div class="news" v-for="(vest) in vesti" :key="vest.vestId">
         <h2>{{ vest.naslov }}</h2>
@@ -31,6 +32,11 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 40px;
+  color: #04AA6D;
+  text-decoration: underline;
+}
   .news {
     margin: 40px;
     border-bottom: 2px solid #04AA6D;

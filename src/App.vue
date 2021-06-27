@@ -4,14 +4,36 @@
       <ul>
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/platforma">Reading platform</router-link></li>
-        <li><router-link to="/cms">CMS</router-link></li>
+        <li><router-link to="/cms_kategorije">CMS</router-link></li>
         <li><router-link to="/login">Login</router-link></li>
         <li style="float:right"><router-link to="/about">About</router-link></li>
+        <li>
+          <form v-if="loggedIn" class="d-flex" @submit.prevent="logout">
+            <button class="btn nav-btn" type="submit">Logout</button>
+          </form>
+        </li>
       </ul>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+  computed: {
+    loggedIn() {
+      return this.$route.name !== 'Login';
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('jwt');
+      this.$router.push({name: 'Login'})
+    }
+  }
+}
+</script>
 
 <style scoped>
 #app {
@@ -55,4 +77,8 @@
   background-color: #111;
 }
 
+.nav-btn {
+  color: white;
+  margin-top: 6px;
+}
 </style>
