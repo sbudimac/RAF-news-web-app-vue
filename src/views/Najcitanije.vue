@@ -5,8 +5,8 @@
     <div id="vesti" v-if="vesti">
       <div class="news" v-for="(vest) in vesti" :key="vest.vestId">
         <h2>{{ vest.naslov }}</h2>
-        <p>{{ vest.tekst.substr(0, vest.tekst.length/4) + '...' }}</p>
-        <small>{{ new Date(vest.vremeKreiranja).toLocaleDateString("en-US") }}</small>
+        <p>{{ vest.tekst|shortText }}</p>
+        <small>{{ vest.vremeKreiranja }}</small>
       </div>
     </div>
   </div>
@@ -19,9 +19,16 @@ export default {
   components: {PlatformaNav},
   mounted() {
     this.$axios.get("/api/platforma_vesti/najcitanije").then((response) => {
-      console.log(response)
       this.vesti = response.data
     })
+  },
+  filters: {
+    shortText(value) {
+      if (value.length < 40) {
+        return value;
+      }
+      return value.slice(0, 40) + '...'
+    }
   },
   data() {
     return {

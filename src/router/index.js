@@ -66,6 +66,30 @@ const routes = [
     component: () => import('../views/CMSUpdateCategory.vue')
   },
   {
+    path: '/cms_add_news',
+    name: 'CMSAddNews',
+    meta: {
+      authRequired: true
+    },
+    component: () => import('../views/CMSAddNews.vue')
+  },
+  {
+    path: '/cms_update_news',
+    name: 'CMSUpdateNews',
+    meta: {
+      authRequired: true
+    },
+    component: () => import('../views/CMSUpdateNews.vue')
+  },
+  {
+    path: '/cms_category_news',
+    name: 'CMSCategoryNews',
+    meta: {
+      authRequired: true
+    },
+    component: () => import('../views/CMSCategoryNews.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import('../views/About.vue')

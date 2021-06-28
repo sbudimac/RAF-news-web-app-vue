@@ -19,6 +19,7 @@
 
 <script>
 import CMSNav from "../components/CMSNav";
+import router from "../router";
 export default {
   name: "CMSAddCategory",
   components: {CMSNav},
@@ -36,7 +37,9 @@ export default {
         ime: this.ime,
         opis: this.opis
       }).then(
-        this.$router.push({name: 'CMSKategorije'})
+       async function () {
+         await router.push({name: 'CMSKategorije'});
+       }
       )
     }
   }

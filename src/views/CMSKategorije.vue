@@ -13,7 +13,7 @@
       </thead>
       <tbody>
       <tr v-for="(kategorija) in kategorije" :key="kategorija.kategorijaId">
-        <th scope="row">{{ kategorija.ime }}</th>
+        <th v-on:click="categoryNews(kategorija.kategorijaId)" scope="row" style="text-decoration: underline">{{ kategorija.ime }}</th>
         <td>{{ kategorija.opis }}</td>
         <td v-on:click="updateCategory(kategorija.kategorijaId, kategorija.ime, kategorija.opis)" style="text-decoration: underline">Edit</td>
         <td v-on:click="deleteCategory(kategorija.kategorijaId)" style="color: red; font-weight: bold; text-decoration: underline">Delete</td>
@@ -26,6 +26,7 @@
 
 <script>
 import CMSNav from "../components/CMSNav";
+import router from "../router";
 export default {
   name: "CMSKategorije",
   components: {CMSNav},
@@ -52,7 +53,15 @@ export default {
     deleteCategory(kategorijaId) {
       this.$axios.delete(`/api/cms_kategorije/${kategorijaId}`, {
         kategorijaId: kategorijaId
-      })
+      }).then(
+          async function () {
+            await router.go(0)
+          }
+      )
+    },
+    categoryNews(kategorijaId) {
+      localStorage.setItem('vesti_kategorija', kategorijaId)
+      this.$router.push({name: 'CMSCategoryNews'})
     }
   }
 }

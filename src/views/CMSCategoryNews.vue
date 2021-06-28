@@ -30,10 +30,10 @@
 import CMSNav from "../components/CMSNav";
 import router from "../router";
 export default {
-  name: "CMSVesti",
+  name: "CMSCategoryNews",
   components: {CMSNav},
   mounted() {
-    this.$axios.get("/api/cms_vesti").then((response) => {
+    this.$axios.get(`/api/platforma_vesti/${this.kategorijaId}`).then((response) => {
       this.vesti = response.data
     })
   },
@@ -47,6 +47,7 @@ export default {
   },
   data() {
     return {
+      kategorijaId: localStorage.getItem('vesti_kategorija'),
       vesti: []
     }
   },

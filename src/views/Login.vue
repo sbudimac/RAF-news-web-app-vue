@@ -23,12 +23,15 @@
 </template>
 
 <script>
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   name: 'Login',
   data() {
     return {
       email: '',
-      lozinka: ''
+      lozinka: '',
+      korisnik: {}
     }
   },
   methods: {
@@ -38,6 +41,8 @@ export default {
         lozinka: this.lozinka
       }).then(response => {
         localStorage.setItem('jwt', response.data.jwt)
+        this.user = VueJwtDecode.decode(response.data.jwt)
+        localStorage.setItem('user', this.user.sub)
         this.$router.push({name: 'CMSKategorije'})
       })
     }
