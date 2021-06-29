@@ -16,7 +16,7 @@
       <tr v-for="(vest) in vesti" :key="vest.vestId">
         <th scope="row">{{ vest.naslov }}</th>
         <td>{{ vest.tekst | shortText }}</td>
-        <td>{{ vest.vremeKreiranja }}</td>
+        <td>{{ new Date(vest.vremeKreiranja).toDateString() }}</td>
         <td v-on:click="updateVest(vest.vestId, vest.naslov, vest.tekst, vest.vremeKreiranja, vest.brojPoseta, vest.kategorijaId)" style="text-decoration: underline">Edit</td>
         <td v-on:click="deleteVest(vest.vestId)" style="color: red; font-weight: bold; text-decoration: underline">Delete</td>
       </tr>
@@ -28,12 +28,11 @@
 
 <script>
 import CMSNav from "../components/CMSNav";
-import router from "../router";
 export default {
   name: "CMSVesti",
   components: {CMSNav},
   mounted() {
-    this.$axios.get("/api/cms_vesti").then((response) => {
+    this.$axios.get("/api/cms_vesti").then(response => {
       this.vesti = response.data
     })
   },
@@ -66,11 +65,12 @@ export default {
     deleteVest(vestId) {
       this.$axios.delete(`/api/cms_vesti/${vestId}`, {
         vestId: vestId
-      }).then(
-          async function () {
-            await router.go(0)
-          }
-      )
+      }).then(() => this.refreshVesti())
+    },
+    refreshVesti() {
+      this.$axios.get("/api/cms_vesti").then(response => {
+        this.vesti = response.data
+      })
     }
   }
 }

@@ -2,12 +2,18 @@
   <div>
     <PlatformaNav/>
     <h1>Homepage</h1>
+    <div id="formica" class="container">
+      <form @submit.prevent="doSearch">
+        <input v-model="search" type="text" id="search" placeholder="Search..." name="search" required>
+        <button type="submit">Go</button>
+      </form>
+    </div>
     <div id="vesti" v-if="vesti">
       <div class="news" v-for="(vest) in vesti" :key="vest.vestId">
         <h2>{{ vest.naslov }}</h2>
         <p>{{ vest.tekst | shortText }}</p>
-        <p>{{ getCategory(vest.kategorijaId) }}</p>
-        <small>{{ vest.vremeKreiranja }}</small>
+        <p>{{ kategorije[vest.kategorijaId] }}</p>
+        <small>{{ new Date(vest.vremeKreiranja).toDateString() }}</small>
       </div>
     </div>
   </div>
@@ -15,11 +21,18 @@
 
 <script>
 import PlatformaNav from "../components/PlatformaNav";
+import Vue from "vue";
 export default {
   name: "Platforma",
   components: {PlatformaNav},
   mounted() {
     this.$axios.get("/api/platforma_vesti/homepage").then((response) => {
+      for (let vest of response.data) {
+        let kategorijaId = vest.kategorijaId
+        if (this.kategorije[kategorijaId] === undefined) {
+          this.getCategory(kategorijaId)
+        }
+      }
       this.vesti = response.data;
     })
   },
@@ -34,16 +47,19 @@ export default {
   data() {
     return {
       vesti: [],
+      search: '',
+      kategorije: {}
     }
   },
   methods: {
-    async getCategory(kategorijaId) {
-      let kategorija;
-      await this.$axios.get(`/api/cms_kategorije/id/${kategorijaId}`).then((response) => {
-        kategorija = response.data.ime
+    getCategory(kategorijaId) {
+      this.$axios.get(`/api/platforma_kategorije/id/${kategorijaId}`).then((response) => {
+        Vue.set(this.kategorije, kategorijaId, response.data.ime)
       })
-      console.log("" + kategorija)
-      return kategorija
+    },
+    doSearch() {
+      localStorage.setItem('search', document.getElementById("search").value);
+      this.$router.push({name: "PlatformaSearchNews"})
     }
   }
 }
@@ -55,8 +71,12 @@ h1 {
   color: #04AA6D;
   text-decoration: underline;
 }
-  .news {
-    margin: 40px;
-    border-bottom: 2px solid #04AA6D;
-  }
+.news {
+  margin: 40px;
+  border-bottom: 2px solid #04AA6D;
+}
+#formica {
+  width: 400px;
+  float: right;
+}
 </style>

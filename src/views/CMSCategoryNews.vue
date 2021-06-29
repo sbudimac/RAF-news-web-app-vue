@@ -16,7 +16,7 @@
       <tr v-for="(vest) in vesti" :key="vest.vestId">
         <th scope="row">{{ vest.naslov }}</th>
         <td>{{ vest.tekst | shortText }}</td>
-        <td>{{ vest.vremeKreiranja }}</td>
+        <td>{{ new Date(vest.vremeKreiranja).toDateString() }}</td>
         <td v-on:click="updateVest(vest.vestId, vest.naslov, vest.tekst, vest.vremeKreiranja, vest.brojPoseta, vest.kategorijaId)" style="text-decoration: underline">Edit</td>
         <td v-on:click="deleteVest(vest.vestId)" style="color: red; font-weight: bold; text-decoration: underline">Delete</td>
       </tr>

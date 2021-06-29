@@ -42,7 +42,6 @@ export default {
     return {
       naslov: '',
       tekst: '',
-      vremeKreiranja: '',
       kategorijaId: 1,
       autorId: 1,
       brojPoseta: 0,
@@ -55,11 +54,6 @@ export default {
     async add() {
       this.naslov = document.getElementById("exampleInputTitle").value
       this.tekst = document.getElementById("exampleInputText").value
-      this.vremeKreiranja = new Date();
-      /*const dd = String(this.vremeKreiranja.getDate()).padStart(2, '0');
-      const mm = String(this.vremeKreiranja.getMonth() + 1).padStart(2, '0');
-      const yyyy = this.vremeKreiranja.getFullYear();
-      this.vremeKreiranja = mm + '/' + dd + '/' + yyyy;*/
       this.kategorijaIme = document.getElementById("categories").value
       await this.$axios.get(`/api/cms_korisnici/${this.korisnikEmail}`).then((response) => {
         this.autorId = response.data.korisnikId
@@ -70,7 +64,6 @@ export default {
       await this.$axios.post('/api/cms_vesti/', {
         naslov: this.naslov,
         tekst: this.tekst,
-        vremeKreiranja: this.vremeKreiranja,
         brojPoseta: this.brojPoseta,
         autorId: this.autorId,
         kategorijaId: this.kategorijaId

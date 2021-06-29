@@ -26,7 +26,6 @@
 
 <script>
 import CMSNav from "../components/CMSNav";
-import router from "../router";
 export default {
   name: "CMSKategorije",
   components: {CMSNav},
@@ -53,15 +52,16 @@ export default {
     deleteCategory(kategorijaId) {
       this.$axios.delete(`/api/cms_kategorije/${kategorijaId}`, {
         kategorijaId: kategorijaId
-      }).then(
-          async function () {
-            await router.go(0)
-          }
-      )
+      }).then(() => this.refreshKategorije())
     },
     categoryNews(kategorijaId) {
       localStorage.setItem('vesti_kategorija', kategorijaId)
       this.$router.push({name: 'CMSCategoryNews'})
+    },
+    refreshKategorije() {
+      this.$axios.get("/api/platforma_kategorije").then((response) => {
+        this.kategorije = response.data
+      })
     }
   }
 }
