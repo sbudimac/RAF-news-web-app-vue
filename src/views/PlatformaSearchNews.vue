@@ -3,10 +3,11 @@
     <PlatformaNav/>
     <h1>Search results</h1>
     <div id="vesti" v-if="vesti">
-      <div class="news" v-for="(vest) in vesti" :key="vest.vestId">
+      <div class="news" v-for="(vest) in vesti" :key="vest.vestId" v-on:click="openNews(vest.vestId)">
         <h2>{{ vest.naslov }}</h2>
         <p>{{ vest.tekst | shortText }}</p>
-        <small>{{ vest.vremeKreiranja }}</small>
+        <p>{{ kategorije[vest.kategorijaId] }}</p>
+        <small>{{ new Date(vest.vremeKreiranja).toDateString() }}</small>
       </div>
     </div>
   </div>
@@ -14,11 +15,18 @@
 
 <script>
 import PlatformaNav from "../components/PlatformaNav";
+import Vue from "vue";
 export default {
   name: "PlatformaSearchNews",
   components: {PlatformaNav},
   mounted() {
     this.$axios.get(`/api/platforma_vesti/search/${this.search}`).then((response) => {
+      for (let vest of response.data) {
+        let kategorijaId = vest.kategorijaId
+        if (this.kategorije[kategorijaId] === undefined) {
+          this.getCategory(kategorijaId)
+        }
+      }
       this.vesti = response.data
     })
   },
@@ -33,7 +41,19 @@ export default {
   data() {
     return {
       search: localStorage.getItem('search'),
-      vesti: []
+      vesti: [],
+      kategorije: {}
+    }
+  },
+  methods: {
+    getCategory(kategorijaId) {
+      this.$axios.get(`/api/platforma_kategorije/id/${kategorijaId}`).then((response) => {
+        Vue.set(this.kategorije, kategorijaId, response.data.ime)
+      })
+    },
+    openNews(vestId) {
+      localStorage.setItem('open_id', vestId)
+      this.$router.push({name: "Vest"})
     }
   }
 }

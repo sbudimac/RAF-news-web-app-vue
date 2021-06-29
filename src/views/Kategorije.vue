@@ -15,7 +15,7 @@
       </select>
     </div>
     <div v-if="vesti">
-      <div class="news" v-for="(vest) in vesti" :key="vest.vestId">
+      <div class="news" v-for="(vest) in vesti" :key="vest.vestId" v-on:click="openNews(vest.vestId)">
         <h2>{{ vest.naslov }}</h2>
         <p>{{ vest.tekst|shortText }}</p>
         <p>{{ kategorije_[vest.kategorijaId] }}</p>
@@ -71,6 +71,10 @@ export default {
     doSearch() {
       localStorage.setItem('search', document.getElementById("search").value);
       this.$router.push({name: "PlatformaSearchNews"})
+    },
+    openNews(vestId) {
+      localStorage.setItem('open_id', vestId)
+      this.$router.push({name: "Vest"})
     }
   }
 }

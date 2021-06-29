@@ -48,6 +48,7 @@ export default {
       kategorijaIme: '',
       kategorije: [],
       korisnikEmail: localStorage.getItem('user'),
+      tagovi: []
     }
   },
   methods: {
@@ -67,10 +68,20 @@ export default {
         brojPoseta: this.brojPoseta,
         autorId: this.autorId,
         kategorijaId: this.kategorijaId
-      }).then(
-          async function () {
-            await router.push({name: 'CMSVesti'});
+      }).then( (response) => {
+        if (document.getElementById("exampleInputTags").value !== "") {
+          this.tagovi = document.getElementById("exampleInputTags").value.split(" ")
+          for (let tag of this.tagovi) {
+            this.$axios.post(`/api/cms_vesti/${response.data.vestId}`, {
+              rec: tag
+            })
           }
+        }
+      }
+      ).then(
+        async function () {
+          await router.push({name: 'CMSVesti'});
+        }
       )
     }
   }

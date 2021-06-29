@@ -1,19 +1,13 @@
 <template>
   <div>
     <PlatformaNav/>
-    <h1>Most popular</h1>
-    <div id="formica" class="container">
-      <form @submit.prevent="doSearch">
-        <input v-model="search" type="text" id="search" placeholder="Search..." name="search" required>
-        <button type="submit">Go</button>
-      </form>
-    </div>
+    <h1>#{{ this.rec }}</h1>
     <div id="vesti" v-if="vesti">
       <div class="news" v-for="(vest) in vesti" :key="vest.vestId" v-on:click="openNews(vest.vestId)">
         <h2>{{ vest.naslov }}</h2>
-        <p>{{ vest.tekst|shortText }}</p>
+        <p>{{ vest.tekst | shortText }}</p>
         <p>{{ kategorije[vest.kategorijaId] }}</p>
-        <small>{{ vest.vremeKreiranja }}</small>
+        <small>{{ new Date(vest.vremeKreiranja).toDateString() }}</small>
       </div>
     </div>
   </div>
@@ -23,10 +17,10 @@
 import PlatformaNav from "../components/PlatformaNav";
 import Vue from "vue";
 export default {
-  name: "Najcitanije",
+  name: "TaggedNews",
   components: {PlatformaNav},
   mounted() {
-    this.$axios.get("/api/platforma_vesti/najcitanije").then((response) => {
+    this.$axios.get(`/api/platforma_vesti/tag/${this.tagId}`).then(response => {
       for (let vest of response.data) {
         let kategorijaId = vest.kategorijaId
         if (this.kategorije[kategorijaId] === undefined) {
@@ -46,8 +40,9 @@ export default {
   },
   data() {
     return {
+      tagId: localStorage.getItem('tag'),
+      rec: localStorage.getItem('rec'),
       vesti: [],
-      search: '',
       kategorije: {}
     }
   },
@@ -56,10 +51,6 @@ export default {
       this.$axios.get(`/api/platforma_kategorije/id/${kategorijaId}`).then((response) => {
         Vue.set(this.kategorije, kategorijaId, response.data.ime)
       })
-    },
-    doSearch() {
-      localStorage.setItem('search', document.getElementById("search").value);
-      this.$router.push({name: "PlatformaSearchNews"})
     },
     openNews(vestId) {
       localStorage.setItem('open_id', vestId)
@@ -78,9 +69,5 @@ h1 {
 .news {
   margin: 40px;
   border-bottom: 2px solid #04AA6D;
-}
-#formica {
-  width: 400px;
-  float: right;
 }
 </style>

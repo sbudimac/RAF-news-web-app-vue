@@ -31,6 +31,11 @@ const routes = [
     component: () => import('../views/PlatformaSearchNews.vue')
   },
   {
+    path: '/tagged',
+    name: 'TaggedNews',
+    component: () => import('../views/TaggedNews.vue')
+  },
+  {
     path: '/vest',
     name: 'Vest',
     component: () => import('../views/Vest.vue')
