@@ -31,6 +31,11 @@ const routes = [
     component: () => import('../views/PlatformaSearchNews.vue')
   },
   {
+    path: '/vest',
+    name: 'Vest',
+    component: () => import('../views/Vest.vue')
+  },
+  {
     path: '/cms_kategorije',
     name: 'CMSKategorije',
     meta: {
