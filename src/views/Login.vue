@@ -47,6 +47,7 @@ export default {
         localStorage.setItem('user_tip', this.user.tip)
         localStorage.setItem('user_status', this.user.status)
         this.$emit('loggedIn', this.user.ime)
+        this.$emit('status', this.user.status)
         this.$router.push({name: 'CMSKategorije'})
       })
     }

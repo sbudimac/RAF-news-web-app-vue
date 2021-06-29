@@ -14,7 +14,7 @@
       </thead>
       <tbody>
       <tr v-for="(vest) in vesti" :key="vest.vestId">
-        <th scope="row">{{ vest.naslov }}</th>
+        <th v-on:click="openNews(vest.vestId)" scope="row" style="text-decoration: underline">{{ vest.naslov }}</th>
         <td>{{ vest.tekst | shortText }}</td>
         <td>{{ new Date(vest.vremeKreiranja).toDateString() }}</td>
         <td v-on:click="updateVest(vest.vestId, vest.naslov, vest.tekst, vest.vremeKreiranja, vest.brojPoseta, vest.kategorijaId)" style="text-decoration: underline">Edit</td>
@@ -71,6 +71,11 @@ export default {
       this.$axios.get("/api/cms_vesti").then(response => {
         this.vesti = response.data
       })
+    },
+    openNews(vestId) {
+      localStorage.setItem('open_id', vestId)
+      let routeData = this.$router.resolve({name: "Vest"})
+      window.open(routeData.href, '_blank')
     }
   }
 }

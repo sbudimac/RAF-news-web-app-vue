@@ -4,7 +4,7 @@
       <ul>
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/platforma">Reading platform</router-link></li>
-        <li><router-link to="/cms_kategorije">CMS</router-link></li>
+        <li><router-link v-if="status === 'AKTIVAN'" to="/cms_kategorije">CMS</router-link></li>
         <li><router-link to="/login">Login</router-link></li>
         <li style="float:right"><router-link to="/about">About</router-link></li>
         <li>
@@ -15,7 +15,7 @@
         <li v-if="loggedIn" style="float:right; color: white; margin-top: 15px"><p>Welcome, {{user}}!</p></li>
       </ul>
     </div>
-    <router-view @loggedIn = 'welcome'/>
+    <router-view @loggedIn = 'welcome' @status = 'getStatus'/>
   </div>
 </template>
 
@@ -23,12 +23,12 @@
 export default {
   name: "App",
   mounted() {
-    console.log(localStorage.getItem('user_ime'))
     this.user = localStorage.getItem('user_ime')
   },
   data() {
     return {
-      user: localStorage.getItem('user_ime')
+      user: localStorage.getItem('user_ime'),
+      status: localStorage.getItem('user_status')
     }
   },
   computed: {
@@ -43,6 +43,9 @@ export default {
     },
     welcome(username) {
       this.user = username
+    },
+    getStatus(stat) {
+      this.status = stat
     }
   }
 }

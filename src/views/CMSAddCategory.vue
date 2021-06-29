@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       ime: '',
-      opis: ''
+      opis: '',
+      kategorija: ''
     }
   },
   methods: {
@@ -37,10 +38,12 @@ export default {
         ime: this.ime,
         opis: this.opis
       }).then(
-       async function () {
-         await router.push({name: 'CMSKategorije'});
-       }
-      )
+          async function () {
+            await router.push({name: 'CMSKategorije'});
+          }
+      ).catch(() => {
+        window.alert('This category already exists.')
+      })
     }
   }
 }

@@ -36,7 +36,8 @@ export default {
   },
   data() {
     return {
-      kategorije: []
+      kategorije: [],
+      vesti: []
     }
   },
   methods: {
@@ -52,7 +53,9 @@ export default {
     deleteCategory(kategorijaId) {
       this.$axios.delete(`/api/cms_kategorije/${kategorijaId}`, {
         kategorijaId: kategorijaId
-      }).then(() => this.refreshKategorije())
+      }).then(() => this.refreshKategorije()).catch(() => {
+        window.alert('This category contains news.')
+      })
     },
     categoryNews(kategorijaId) {
       localStorage.setItem('vesti_kategorija', kategorijaId)

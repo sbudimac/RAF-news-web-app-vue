@@ -14,7 +14,8 @@ export default {
   name: "CMSNav",
   data() {
     return {
-      tip: localStorage.getItem('user_tip')
+      tip: localStorage.getItem('user_tip'),
+      status: localStorage.getItem('user_status')
     }
   }
 }

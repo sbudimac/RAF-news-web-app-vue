@@ -37,6 +37,7 @@ export default {
   mounted() {
     this.$axios.get(`/api/platforma_vesti/vesti/${this.vestId}`).then(response => {
       this.vest = response.data
+      this.$axios.put(`/api/platforma_vesti/${this.vestId}/${this.vest.brojPoseta + 1}`).then(() =>console.log("AAAA"))
       this.$axios.get(`/api/platforma_korisnici/${response.data.autorId}`).then(response => {
         this.korisnik = response.data.ime + ' ' + response.data.prezime
       })
