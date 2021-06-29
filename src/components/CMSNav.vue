@@ -4,14 +4,19 @@
       <h1>RAF news CMS</h1>
     </div>
     <div id="nav">
-      <h3><router-link to="/cms_kategorije">Categories</router-link> | <router-link to="/cms_vesti">News</router-link> | <router-link to="/cms_pretraga">Search</router-link></h3>
+      <h3><router-link to="/cms_kategorije">Categories</router-link> | <router-link to="/cms_vesti">News</router-link> | <router-link to="/cms_pretraga">Search</router-link> | <router-link v-if="tip === 'ADMIN'" to="/cms_users">Users</router-link></h3>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CMSNav"
+  name: "CMSNav",
+  data() {
+    return {
+      tip: localStorage.getItem('user_tip')
+    }
+  }
 }
 </script>
 

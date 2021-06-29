@@ -105,6 +105,30 @@ const routes = [
     component: () => import('../views/CMSCategoryNews.vue')
   },
   {
+    path: '/cms_users',
+    name: 'CMSKorisnici',
+    meta: {
+      authRequired: true
+    },
+    component: () => import('../views/CMSKorisnici.vue')
+  },
+  {
+    path: '/cms_add_user',
+    name: 'CMSAddUser',
+    meta: {
+      authRequired: true
+    },
+    component: () => import('../views/CMSAddUser.vue')
+  },
+  {
+    path: '/cms_update_user',
+    name: 'CMSUpdateUser',
+    meta: {
+      authRequired: true
+    },
+    component: () => import('../views/CMSUpdateUser.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import('../views/About.vue')

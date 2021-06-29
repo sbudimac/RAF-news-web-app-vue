@@ -20,7 +20,7 @@ export default {
   name: "TaggedNews",
   components: {PlatformaNav},
   mounted() {
-    this.$axios.get(`/api/platforma_vesti/tag/${this.tagId}`).then(response => {
+    this.$axios.get(`/api/platforma_vesti/tag/${this.rec}`).then(response => {
       for (let vest of response.data) {
         let kategorijaId = vest.kategorijaId
         if (this.kategorije[kategorijaId] === undefined) {

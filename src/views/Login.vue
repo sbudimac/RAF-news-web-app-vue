@@ -43,6 +43,10 @@ export default {
         localStorage.setItem('jwt', response.data.jwt)
         this.user = VueJwtDecode.decode(response.data.jwt)
         localStorage.setItem('user', this.user.sub)
+        localStorage.setItem('user_ime', this.user.ime)
+        localStorage.setItem('user_tip', this.user.tip)
+        localStorage.setItem('user_status', this.user.status)
+        this.$emit('loggedIn', this.user.ime)
         this.$router.push({name: 'CMSKategorije'})
       })
     }

@@ -12,15 +12,25 @@
             <button class="btn nav-btn" type="submit">Logout</button>
           </form>
         </li>
+        <li v-if="loggedIn" style="float:right; color: white; margin-top: 15px"><p>Welcome, {{user}}!</p></li>
       </ul>
     </div>
-    <router-view/>
+    <router-view @loggedIn = 'welcome'/>
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
+  mounted() {
+    console.log(localStorage.getItem('user_ime'))
+    this.user = localStorage.getItem('user_ime')
+  },
+  data() {
+    return {
+      user: localStorage.getItem('user_ime')
+    }
+  },
   computed: {
     loggedIn() {
       return this.$route.name !== 'Login';
@@ -30,6 +40,9 @@ export default {
     logout() {
       localStorage.removeItem('jwt');
       this.$router.push({name: 'Login'})
+    },
+    welcome(username) {
+      this.user = username
     }
   }
 }
